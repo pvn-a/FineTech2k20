@@ -1,0 +1,42 @@
+PES1201800157
+
+Data Structures Used:
+    Doubly Linked list.
+    Callbacks are also used.
+
+Steps to compile:
+    Its better to use a makefile
+    gcc -c A3_impl_PES1201800157.c -g
+    gcc -c A3_client_PES1201800157.c -g
+    gcc A3_client_PES1201800157.o A3_impl_PES1201800157.o -o a.out
+
+Methodology/Approach:
+ • Basic linked list operations include:
+        - Insert and delete at end.
+        - Display and init functions used.
+
+ • A state is uniquely identified by the contents of the jug A, B, C and the function index it points to.
+ • There is a linked list whose first node is the start state as given in the input.
+ • There are 6 transitions A->B, A->C, B->A, B->C, C->A, C->B in the exact same order.
+ • These transition functions, try to pour the contents in its source Jug into the destination Jug.
+ • It takes care of cases where pour <= src->Jug, or pour > src->Jug.
+ • If a successful pour has been made, the state is checked for its validity.
+ • After which, if the node(i.e state) is not repeated in the soln_list, it is inserted in the end.
+ • If the node is repeated, all nodes are deleted until that "repeated" node, and a different transition is applied this time.
+     <deleting all nodes unitl that repeated node, is basically pruning the branch, or removing that entire cycle >
+ • A solution is obtained if the final state is reached as per input.
+ • The outer while loop continues until soln_list->HEAD!=NULL<to get all possible solutions>
+ • The nodes are deleted from the end, and all possible transitions are applied to the previous nodes.
+ • Thus the nodes are backtracked, and all possible soln_list are printed along with number of solutions.
+ • Thus state space search is used to solve the 3-Jug problem.
+
+Key takeaway from this assignment
+
+    - Learnt about the 3-Jug problem and code out the same, by using state space search.
+    - Learnt how to use callbacks.
+    - How to extend the code to print out all possible solutions to the problem by backtracking steps.
+
+P.S
+
+All function purposes are described in .c files.
+Several blocks of code are used in debugging, mainly DEBUG1, DEBUG2 in client.c file. 

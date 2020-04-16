@@ -1,0 +1,53 @@
+//PES1201800157 4I FIneTechBATCH2
+
+Data Structure Used:
+	2D Array implementation of Binary Counter [Square Matrix implementation] of constant size i.e ceil(log2(length)+1)
+
+
+Compilation of code:
+	math.h has been used. Please use   -lm
+	There is a #define debug 0 . Change that to 1 for a better visualisation of what is going on stepwise.[HIGHLY RECOMMENDED]
+	Code developed and tested on Windows 10 + Ubuntu 18.04.[Recommended OS's]
+
+
+
+Description/Implementation:
+
+void find_second_greatest(int *numbers, int length);
+	-Creates the main array(arr), initialises it with 'empty'(#define 'd ).
+	-Uses a for loop 0 to n-1, to keep inserting elements into the 1st position and propell the comparisions to next column(playmatch=true, initially)
+	-While loop keeps calling start() and increments the column number(cur) as long as (arr[base][cur+1]!=empty or playmatch=true) is true.
+	-To make the final column transfers, fin_col_switch() is called.
+	-If the length was a power of 2 then no further matches are palyed and second max element is printed
+	-If the length is not a power of 2, then start() followed by fin_col_switch() are called one last time (for a final pass through).
+	-Print the second max element from the last column
+
+
+static void reinitcol(int *arr[],int size,int col);
+	- Reinitialises the column, index=col, to 'empty'. Done after the contents of 1 column are shifted to the adjacent right column 
+
+static void lhs_print(int *arr[],int size, int col);	static void rhs_print(int *arr[],int size, int col);
+	- Prints the LHS and RHS part of the expected equation
+	<Used 2 seperate function for printing because, it made more sense at the time of debugging>
+
+static void start(int *arr[], int size,int base, int curr, int *flag, int *flag2, int playmatch, int when);
+	-(when) => When was the function called, during insertion or the final pass through(in case of not a power of 2)
+	- Does Operations like:
+		=> Copying Data between columns
+		=> Play matches between 2 columns(lets say columns 3 and 4). Update the result of match in 4. Copy data of column 4 to column 5.
+
+static void fin_col_switch(int *arr[], int size, int cur, int base);
+	-Last pass to transfer data to last column 
+
+
+KEY TAKEAWAYS:
+	Find out the second max element using n + logn - 2 comparisions (better than bruteforce 2n-2 comparisions)
+	Different ways to solve the same, 2D Array or a combination of array and Linked lists
+	Debugging Skills
+	Learnt how to use gdb.
+	Learnt about Binary Counter data structure and implemented the same using 2D array to find the second max element.
+
+
+P.S
+printarray() =>Used for debugging purposes
+Many fuction though could have been made into one, or merged, but were used seperately during the debugging and developmental stages and are included in the main program for transparency purposes.

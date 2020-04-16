@@ -1,0 +1,64 @@
+//PES1201800157------------Pavan A -----Assignment_4
+
+EXECUTION INSTRUCTIONS:
+	- Code typed, executed and debugged on UBUNTU 18.04 LTE
+	- So please run on the same.
+
+METHODOLOGY USED:
+	- #define SIZE(x) sizeof(tree_t)+((x-1)*sizeof(node_t)) //offsetting function
+	- what x takes here, is the pos where the node has to be inserted index from 1
+	- Eg: if you want 2nd node => SIZE(2) -> header_size+(2-1)*node_size = node at index 1
+	- All links are in the form of offsets. 
+	- INDEXES are in the form (header, 0,1,2,3,4......) corresponding to (header,<1st node>, <2nd node>, <3rd node>).
+	- free_list's indexes, in nodes, are kept in their right offsets.
+
+
+INIT_TREE
+
+- If no such file exists, open it in w+ mode, initialising the header.
+- If it exists already open it in r+ and not in w+, to avoid overwritting, return file pointer immediately.
+
+
+
+INSERT
+
+- A varibale temp, of type is iniitalised with (key, -1, -1) initially.
+- If header.root is -1, which means there isn't a single node in the file, temp is inserted as the first key.
+- If header.root!=-1 then , the appropriate position(either in the end or somewhere in the middle, due to an earlier deletion) is determined, and temp is placed there with (key,-1,-1).
+- Now we call the recurssive insert function which return the position(pos) of the node, to the left or right of which temp has to be linked.
+- If the pos returned is 0, it means that the element is already present, return immediately.
+- After the correct position is obtained, that particular node's values are updated *only* changing the corresponding right or left offset depending where the temp has to be present.
+- This is basically the complete insert process.
+
+
+
+
+DELETE
+
+- If header.root==header.free_tail==-1 then no node exists at all, return immediately
+- Before deletion I searched for the existence of that key in the list. If not present, return immediately.
+- A recurssive function deleteNode is called which does two things:
+	+ return the lists's root after deletion
+	+ Deletes the node
+	
+- Deletion of the node happens this way:
+	+ First the node with key , to be deleted, is found out.
+	+ If that node is a leaf node delete it.
+	+ If that node is a parent node, then the inorder_successor(here minValueNode is doing the same job, return the pos of the node which has the least value in the right sub tree) takes the place of the node to be deleted. Basically that node's key is replaced with minValueNode's key, keeping the offsets intact.
+	+THE above process continues until a leaf node has been found.
+	+ At every deletion process, the final node which has to be deleted down the tree, is initialised with(#defined empty, -1, header.free_head)
+	+ header.free_head's value is now updated to this nodes position so that the integrity of the list is maintained.
+	
+
+
+
+INORDER/PREORDER
+
+- The required functions now call their corresponding recurssive functions to print the required order
+- Implementation is similar to that of a BST with pointer links.
+	
+KEY TAKEAWAYS:
+	- Learnt how to implement a binary search tree on a hard disk.
+	- Learnt that sometimes fseek(), ran differently on windows and linux and a code executed on one may/may not run on the other.
+	- Learnt how to use index's as pointers to implement a tree.
+	- Debugging skills

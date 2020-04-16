@@ -1,0 +1,52 @@
+//PES1201800157
+
+The allocation policy implemented is best fit.
+Best fit allocates the process to a partition which is the smallest sufficient partition among the 
+free available partitions. If the partition is small so that it cannot accomodate a book structure, 
+then it checks if it can be completely given to a pointer even though it asked for less than given.
+
+
+The basic logic used while implementing was that :
+
+allocate()
+-When I first call allocate() it assigns that many number of bytes to char *p. It also assigns an 
+initial book structure to p and keeps (n-sizeof(book))bytes free.
+
+mymalloc()
+-mymalloc searches for the most suitable memory block available to optimally allocate the requested size
+case1: if lets say 100 bytes and 60 bytes is free. sizeof(book)=24, requested 10
+       It has to give from 60 bytes (10+24=34). 34 bytes occupied, 24 free.
+
+case2: if lets say 100 bytes and 60 bytes is free. sizeof(book)=24, requested 40
+	It has to give from 60 bytes (complete 60 bytes allocated, instead of 40 => status just changed from 
+	available to allocated), since (40+24=64) and 4 bytes would be wasted if it were to be alloted from 100 bytes.
+
+Even if the book can have 1 byte as free, it should be kept like that and not given to the previous block.
+
+
+best1 ---- anything related with this keeps a track of that book structure which, has the least (size <= book->mem_size < alloc_size)
+best  ---- anything related with this keeps a track of that book structure which, has the least (book->mem_size >= alloc size)
+
+
+
+
+
+-myfree()
+frees the pointer. Merges two or more contigous memory blocks. 
+
+BOOK KEEPING STRUCTURE
+The book keeping structure has *next, *prev, mem_size and status. The book structure was chosen to mimic a 
+doubly linkedlist, so that insertion and deletion in a best fit algorithm would become easy.
+*next points to the next book node. *prev points to the previous book node.
+mem_block hold the size of the memory that is free/occupied. status tells is that book keeping record is available
+or allocated.
+
+The key takeaway from this assignment was that I learnt about the flaws of malloc and what first, worst and best
+fit meant. I learnt to implement best fit and understood behind the scenes of how malloc works. I learnt about 
+book keeping records and how to implement one.
+
+
+<I wish there were more test cases to test>
+
+ 
+
